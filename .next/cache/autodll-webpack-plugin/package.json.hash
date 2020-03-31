@@ -1,0 +1,1 @@
+{"name":"web-perf","version":"1.0.0","main":"index.js","license":"MIT","scripts":{"dev":"next","build":"next build","start":"next start"},"dependencies":{"next":"^9.3.3","react":"^16.13.1","react-dom":"^16.13.1"},"readme":"ERROR: No README data found!","_id":"web-perf@1.0.0"}
