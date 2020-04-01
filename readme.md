@@ -10,6 +10,8 @@
 - [ ] Test with React profiler API, find the useful metrics
 - [ ] Create helper functions, or a hook to track the metrics above
 - [ ] Create customized dimension in GA, push the data to GA with the help of gtag.js
+- [ ] Do we need to hide GA track key 
+- [ ] Track user conversion time ?via google tag manager. gtag.js  
 
 ## Description
 
