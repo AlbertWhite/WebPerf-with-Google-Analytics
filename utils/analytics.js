@@ -1,6 +1,7 @@
 import ReactGA from 'react-ga'
 export const initGA = () => {
   const gaKey = process.env.gakey;
+  console.warn('ax', { gaKey });
   ReactGA.initialize(gaKey, {
     gaOptions: {
       siteSpeedSampleRate: 100
