@@ -21,6 +21,7 @@ export default class extends Document {
             gtag('js', new Date());
             gtag('config', '${GA_TRACKING_ID}', {
               page_path: window.location.pathname,
+              site_speed_sample_rate : 100
             });
           `,
             }}
