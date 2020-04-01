@@ -88,7 +88,7 @@ module.exports =
 /******/
 /******/
 /******/ 	// Load entry module and return exports
-/******/ 	return __webpack_require__(__webpack_require__.s = 0);
+/******/ 	return __webpack_require__(__webpack_require__.s = 1);
 /******/ })
 /************************************************************************/
 /******/ ({
@@ -1120,9 +1120,7 @@ var __jsx = react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement;
             window.dataLayer = window.dataLayer || [];
             function gtag(){dataLayer.push(arguments);}
             gtag('js', new Date());
-            gtag('config', '${_utils_analytics__WEBPACK_IMPORTED_MODULE_2__["GA_TRACKING_ID"]}', {
-              page_path: window.location.pathname,
-            });
+            gtag('config', '${_utils_analytics__WEBPACK_IMPORTED_MODULE_2__["GA_TRACKING_ID"]}');
           `
       },
       __self: this,
@@ -1135,21 +1133,21 @@ var __jsx = react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement;
       __self: this,
       __source: {
         fileName: _jsxFileName,
-        lineNumber: 29,
+        lineNumber: 27,
         columnNumber: 9
       }
     }, __jsx(next_document__WEBPACK_IMPORTED_MODULE_1__["Main"], {
       __self: this,
       __source: {
         fileName: _jsxFileName,
-        lineNumber: 30,
+        lineNumber: 28,
         columnNumber: 11
       }
     }), __jsx(next_document__WEBPACK_IMPORTED_MODULE_1__["NextScript"], {
       __self: this,
       __source: {
         fileName: _jsxFileName,
-        lineNumber: 31,
+        lineNumber: 29,
         columnNumber: 11
       }
     })));
@@ -1171,15 +1169,18 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "GA_TRACKING_ID", function() { return GA_TRACKING_ID; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "trackPageview", function() { return trackPageview; });
 const GA_TRACKING_ID = 'UA-162274920-1';
-const trackPageview = () => {
+const trackPageview = url => {
+  console.warn('ax', {
+    url
+  });
   window.gtag('config', GA_TRACKING_ID, {
-    page_path: window.location.pathname
+    page_path: url
   });
 };
 
 /***/ }),
 
-/***/ 0:
+/***/ 1:
 /*!*********************************************!*\
   !*** multi private-next-pages/_document.js ***!
   \*********************************************/
