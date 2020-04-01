@@ -419,20 +419,31 @@ next_router__WEBPACK_IMPORTED_MODULE_1___default.a.events.on('routeChangeComplet
 /*!****************************!*\
   !*** ./utils/analytics.js ***!
   \****************************/
-/*! exports provided: GA_TRACKING_ID, trackPageview */
+/*! exports provided: GA_TRACKING_ID, trackPageview, trackEvent */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "GA_TRACKING_ID", function() { return GA_TRACKING_ID; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "trackPageview", function() { return trackPageview; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "trackEvent", function() { return trackEvent; });
+// https://github.com/zeit/next.js/blob/canary/examples/with-google-analytics/pages/_app.js
 const GA_TRACKING_ID = 'UA-162274920-1';
 const trackPageview = url => {
-  console.warn('ax', {
-    url
-  });
   window.gtag('config', GA_TRACKING_ID, {
     page_path: url
+  });
+};
+const trackEvent = ({
+  action,
+  name,
+  value,
+  event_category
+}) => {
+  window.gtag('event', action, {
+    name,
+    value,
+    event_category
   });
 };
 

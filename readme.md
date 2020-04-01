@@ -4,14 +4,15 @@
 - [x] add GA
 - [x] Track page loading time by route
 - [x] Understand common metrics
-- [ ] Try with GA times API and navigation performance API to upload userTime 
+- [x] Try with GA times API and navigation performance API to upload userTime
+- [ ] Upload time data by gtag.js 
 - [ ] Implement the substract of two times in order to track the key metric
 - [ ] Talk with collegues for suggestions
 - [ ] Test with React profiler API, find the useful metrics
 - [ ] Create helper functions, or a hook to track the metrics above
 - [ ] Create customized dimension in GA, push the data to GA with the help of gtag.js
 - [ ] Do we need to hide GA track key 
-- [ ] Track user conversion time ?via google tag manager. gtag.js  
+- [ ] Track user conversion time ?
 
 ## Description
 

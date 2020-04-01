@@ -1120,7 +1120,10 @@ var __jsx = react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement;
             window.dataLayer = window.dataLayer || [];
             function gtag(){dataLayer.push(arguments);}
             gtag('js', new Date());
-            gtag('config', '${_utils_analytics__WEBPACK_IMPORTED_MODULE_2__["GA_TRACKING_ID"]}');
+            gtag('config', '${_utils_analytics__WEBPACK_IMPORTED_MODULE_2__["GA_TRACKING_ID"]}', {
+              'sample_rate': 100,
+              'site_speed_sample_rate' : 100
+            });
           `
       },
       __self: this,
@@ -1133,21 +1136,21 @@ var __jsx = react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement;
       __self: this,
       __source: {
         fileName: _jsxFileName,
-        lineNumber: 27,
+        lineNumber: 30,
         columnNumber: 9
       }
     }, __jsx(next_document__WEBPACK_IMPORTED_MODULE_1__["Main"], {
       __self: this,
       __source: {
         fileName: _jsxFileName,
-        lineNumber: 28,
+        lineNumber: 31,
         columnNumber: 11
       }
     }), __jsx(next_document__WEBPACK_IMPORTED_MODULE_1__["NextScript"], {
       __self: this,
       __source: {
         fileName: _jsxFileName,
-        lineNumber: 29,
+        lineNumber: 32,
         columnNumber: 11
       }
     })));
@@ -1161,20 +1164,31 @@ var __jsx = react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement;
 /*!****************************!*\
   !*** ./utils/analytics.js ***!
   \****************************/
-/*! exports provided: GA_TRACKING_ID, trackPageview */
+/*! exports provided: GA_TRACKING_ID, trackPageview, trackEvent */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "GA_TRACKING_ID", function() { return GA_TRACKING_ID; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "trackPageview", function() { return trackPageview; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "trackEvent", function() { return trackEvent; });
+// https://github.com/zeit/next.js/blob/canary/examples/with-google-analytics/pages/_app.js
 const GA_TRACKING_ID = 'UA-162274920-1';
 const trackPageview = url => {
-  console.warn('ax', {
-    url
-  });
   window.gtag('config', GA_TRACKING_ID, {
     page_path: url
+  });
+};
+const trackEvent = ({
+  action,
+  name,
+  value,
+  event_category
+}) => {
+  window.gtag('event', action, {
+    name,
+    value,
+    event_category
   });
 };
 

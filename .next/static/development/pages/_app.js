@@ -3270,20 +3270,30 @@ next_router__WEBPACK_IMPORTED_MODULE_1___default.a.events.on('routeChangeComplet
 /*!****************************!*\
   !*** ./utils/analytics.js ***!
   \****************************/
-/*! exports provided: GA_TRACKING_ID, trackPageview */
+/*! exports provided: GA_TRACKING_ID, trackPageview, trackEvent */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "GA_TRACKING_ID", function() { return GA_TRACKING_ID; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "trackPageview", function() { return trackPageview; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "trackEvent", function() { return trackEvent; });
+// https://github.com/zeit/next.js/blob/canary/examples/with-google-analytics/pages/_app.js
 var GA_TRACKING_ID = 'UA-162274920-1';
 var trackPageview = function trackPageview(url) {
-  console.warn('ax', {
-    url: url
-  });
   window.gtag('config', GA_TRACKING_ID, {
     page_path: url
+  });
+};
+var trackEvent = function trackEvent(_ref) {
+  var action = _ref.action,
+      name = _ref.name,
+      value = _ref.value,
+      event_category = _ref.event_category;
+  window.gtag('event', action, {
+    name: name,
+    value: value,
+    event_category: event_category
   });
 };
 
