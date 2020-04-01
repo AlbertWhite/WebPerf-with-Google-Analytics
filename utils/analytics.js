@@ -25,6 +25,7 @@ export const logException = (description = '', fatal = false) => {
 
 export const logTiming = (category = '', variable = '', value = 0, label = '') => {
   if (category && variable && value) {
+    console.warn('Send timing', { value });
     ReactGA.timing({ category, variable, value })
   }
 }
