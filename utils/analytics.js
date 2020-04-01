@@ -1,4 +1,8 @@
 import ReactGA from 'react-ga'
+import * as dotenv from 'dotenv';
+
+dotenv.config();
+
 export const initGA = () => {
   const gaKey = process.env.gakey;
   console.warn('ax', { gaKey });
