@@ -20,8 +20,8 @@ export default class extends Document {
             function gtag(){dataLayer.push(arguments);}
             gtag('js', new Date());
             gtag('config', '${GA_TRACKING_ID}', {
-              page_path: window.location.pathname,
-              site_speed_sample_rate : 100
+              'sample_rate': 100,
+              'site_speed_sample_rate' : 100
             });
           `,
             }}
