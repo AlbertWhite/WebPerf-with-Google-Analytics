@@ -8,10 +8,10 @@ export const trackPageview = (url) => {
   })
 }
 
-export const trackEvent = ({ action, category, label, value }) => {
+export const trackEvent = ({ action, name, value, event_category }) => {
   window.gtag('event', action, {
-    event_category: category,
-    event_label: label,
-    value: value,
+    name,
+    value,
+    event_category,
   })
 }
