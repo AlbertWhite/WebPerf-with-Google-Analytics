@@ -39,6 +39,10 @@ Average page loading time is one of the default tracking metrics in Google analy
 For example, there is a huge loop on the about page, GA can tell us by its longer loading time.
 ![](https://raw.githubusercontent.com/AlbertWhite/WebPerf-with-Google-Analytics/master/images/1.png)
 
+If we choose "Technical" under the "Explorer" panel, we will have more valuable web perf metrics, for example, Redirection Time, Server response time.
+
+![](https://raw.githubusercontent.com/AlbertWhite/WebPerf-with-Google-Analytics/master/images/3.png)
+
 #### Implementation
 
 Technically, we need to:
