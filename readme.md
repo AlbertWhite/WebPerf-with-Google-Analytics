@@ -3,11 +3,12 @@
 - [x] create a demo with multi routings with Next.js
 - [x] add GA
 - [x] Track page loading time by route
-- [ ] a - b
-- [ ] Understand common metrics
-- [ ] Try with GA times API and navigation times API to upload userTime 
+- [x] Understand common metrics
+- [ ] Try with GA times API and navigation performance API to upload userTime 
+- [ ] Implement the substract of two times in order to track the key metric
+- [ ] Talk with collegues for suggestions
 - [ ] Test with React profiler API, find the useful metrics
-- [ ] Create a helper function, or a hook to track the metrics above
+- [ ] Create helper functions, or a hook to track the metrics above
 - [ ] Create customized dimension in GA, push the data to GA with the help of gtag.js
 
 ## Description
