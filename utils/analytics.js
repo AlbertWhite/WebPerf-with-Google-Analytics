@@ -1,12 +1,7 @@
 import ReactGA from 'react-ga'
-import * as dotenv from 'dotenv';
-
-dotenv.config();
 
 export const initGA = () => {
-  const gaKey = process.env.gakey;
-  console.warn('ax', { gaKey });
-  ReactGA.initialize(gaKey, {
+  ReactGA.initialize('UA-162274920-1', {
     gaOptions: {
       siteSpeedSampleRate: 100
     }
