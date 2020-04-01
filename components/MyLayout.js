@@ -1,5 +1,5 @@
 import Header from './Header'
-import { initGA, logPageView, logTiming } from '../utils/analytics'
+import { trackPageview } from '../utils/analytics'
 
 const layoutStyle = {
   margin: 20,
@@ -9,13 +9,9 @@ const layoutStyle = {
 
 export default class Layout extends React.Component {
   componentDidMount() {
-    if (!window.GA_INITIALIZED) {
-      initGA()
-      window.GA_INITIALIZED = true
-    }
-    logPageView()
+    trackPageview()
     // logTiming('category_test_with_now', 'variable_test_with_now', Math.round(window.performance.now()))
-    logTiming('category_test_with_now', 'variable_test_with_now', 10000000000000000)//test
+    //logTiming('category_test_with_now', 'variable_test_with_now', 10000000000000000)//test
   }
   render() {
     return (
