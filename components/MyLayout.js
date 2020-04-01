@@ -1,5 +1,5 @@
 import Header from './Header'
-import { initGA, logPageView } from '../utils/analytics'
+import { initGA, logPageView, logTiming } from '../utils/analytics'
 
 const layoutStyle = {
   margin: 20,
@@ -14,6 +14,7 @@ export default class Layout extends React.Component {
       window.GA_INITIALIZED = true
     }
     logPageView()
+    logTiming('category_test_with_now', 'variable_test_with_now', window.performance.now())
   }
   render() {
     return (

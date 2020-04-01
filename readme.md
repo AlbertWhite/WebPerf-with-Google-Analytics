@@ -100,6 +100,11 @@ By default, the time range for reports (Audience, Acquisition, Behavoir) are unt
 #### Conclusion
 **It is a good start point for measuring web perf, to know which page takes the longest time to load, and to know how it changes overtime.**
 
+
+## Track user interaction response time
+
+
+
 ## Resources
 
 Demo from https://github.com/AlbertWhite/next-learn-demo/tree/master/6-fetching-data
