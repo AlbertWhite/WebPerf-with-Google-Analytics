@@ -5,8 +5,9 @@
 - [x] Track page loading time by route
 - [x] Understand common metrics
 - [x] Try with GA times API and navigation performance API to upload userTime
-- [ ] Upload time data by gtag.js 
-- [ ] Implement the substract of two times in order to track the key metric
+- [x] Upload time data by gtag.js 
+- [x] Implement the substract of two times in order to track the key metric
+- [ ] Track user action between page (ex: redirection)
 - [ ] Talk with collegues for suggestions
 - [ ] Test with React profiler API, find the useful metrics
 - [ ] Create helper functions, or a hook to track the metrics above
@@ -29,8 +30,6 @@ Normally Google analytics is used to user related information and serves in mark
 
 - Google Analytics
 
-- react-ga library
-
 - Deployed with [Now](https://zeit.co/dashboard). Now is the delivery service from ZEIT. It is the same company who has created Next.js. CD actived on deployment.
 
 
@@ -45,6 +44,11 @@ For example, there is a huge loop on the about page, GA can tell us by its longe
 If we choose "Technical" under the "Explorer" panel, we will have more valuable web perf metrics, for example, Redirection Time, Server response time.
 
 ![](https://raw.githubusercontent.com/AlbertWhite/WebPerf-with-Google-Analytics/master/images/3.png)
+
+#### Technology
+
+- react-ga library
+
 
 #### Implementation
 
@@ -106,7 +110,74 @@ By default, the time range for reports (Audience, Acquisition, Behavoir) are unt
 
 ## Track user interaction response time
 
+#### Description 
 
+In order to track user interaction response time, 
+we need the help of gtag.js or google tag manager.  
+
+In order to use gtag.js, the library react-ga is not a good idea, because it uses analytic.js, the old version of the script for google analytics, instead of gtag.js, a new version of the script for google analytics. [Here](https://github.com/zeit/next.js/blob/canary/examples/with-google-analytics) is a good example for integrating gtag.js in a project of NextJs.
+
+In order to track user interaction response time, the idea is simple:
+1. Get the timestamp when the interaction is triggered
+2. Get the timestamp when the interaction is finished
+3. Calculate the delta of two timestamp, push the data to google analytics
+
+#### Technology
+
+- gtag.js
+- window.performance.timing API
+
+#### Implementation
+
+1. Implement GA tracking with gtag.js.
+
+Here is the implementation for next.js in [_document.js](https://github.com/AlbertWhite/WebPerf-with-Google-Analytics/blob/master/pages/_document.js).
+
+```js
+        <Head>
+          {/* Global Site Tag (gtag.js) - Google Analytics */}
+          <script
+            async
+            src={`https://www.googletagmanager.com/gtag/js?id=${GA_TRACKING_ID}`}
+          />
+          <script
+            dangerouslySetInnerHTML={{
+              __html: `
+            window.dataLayer = window.dataLayer || [];
+            function gtag(){dataLayer.push(arguments);}
+            gtag('js', new Date());
+            gtag('config', '${GA_TRACKING_ID}', {
+              'sample_rate': 100,
+              'site_speed_sample_rate' : 100
+            });
+          `,
+            }}
+          />
+        </Head>
+```
+2. Track time with gtag
+
+[Here](https://github.com/AlbertWhite/WebPerf-with-Google-Analytics/blob/master/pages/pay.js) is an example for tracking the payment button.
+
+```js
+const treatPayment = ({ setIsConfirmed }) => {
+  const startTreatPaymentTime = window.performance.now()
+
+  setTimeout(function () {
+    setIsConfirmed(true)
+    const endTreatPaymentTime = window.performance.now()
+    const deltaTime = Math.round(endTreatPaymentTime - startTreatPaymentTime)
+    trackEvent({
+      action: 'timing_complete', name: 'test_name', value: deltaTime, event_category: 'payment_confirmation_time'
+    })
+  }, 999); // mock 1s to treat payment
+
+}
+```
+
+We will see the 'payment_confirmation_time' is tracked in google analytics and the average time duration is 1s.
+
+![](https://raw.githubusercontent.com/AlbertWhite/WebPerf-with-Google-Analytics/master/images/4.png)
 
 ## Resources
 
@@ -120,3 +191,5 @@ Demo from https://github.com/AlbertWhite/next-learn-demo/tree/master/6-fetching-
 [google tag manager](https://analytics.google.com/analytics/academy/course/5/unit/1/lesson/2): maybe we don't need it. [gtag.js](https://developers.google.com/gtagjs) is enough.
 
 [Add secret in Now deployment for enviroment variables](https://zeit.co/docs/v2/build-step#using-environment-variables-and-secrets) Now secrets are lowercased.
+
+[Measure user timings with gtag.js](https://developers.google.com/analytics/devguides/collection/gtagjs/user-timings)
