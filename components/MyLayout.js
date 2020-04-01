@@ -14,7 +14,7 @@ export default class Layout extends React.Component {
       window.GA_INITIALIZED = true
     }
     logPageView()
-    logTiming('category_test_with_now', 'variable_test_with_now', window.performance.now())
+    logTiming('category_test_with_now', 'variable_test_with_now', Math.round(window.performance.now()))
   }
   render() {
     return (
