@@ -116,4 +116,4 @@ Demo from https://github.com/AlbertWhite/next-learn-demo/tree/master/6-fetching-
 
 [google tag manager](https://analytics.google.com/analytics/academy/course/5/unit/1/lesson/2): maybe we don't need it. [gtag.js](https://developers.google.com/gtagjs) is enough.
 
-[Add secret in Now deployment for enviroment variables](https://zeit.co/docs/v2/build-step#using-environment-variables-and-secrets)
+[Add secret in Now deployment for enviroment variables](https://zeit.co/docs/v2/build-step#using-environment-variables-and-secrets) Now secrets are lowercased.
