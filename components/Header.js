@@ -1,8 +1,8 @@
-import Link from 'next/link'
+import Link from "next/link";
 
 const linkStyle = {
   marginRight: 15
-}
+};
 
 export default function Header() {
   return (
@@ -16,6 +16,9 @@ export default function Header() {
       <Link href="/pay">
         <a style={linkStyle}>Pay</a>
       </Link>
+      <Link href="/pay-with-redirection">
+        <a style={linkStyle}>Pay with redirection</a>
+      </Link>
     </div>
-  )
+  );
 }

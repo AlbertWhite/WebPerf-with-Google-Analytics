@@ -419,18 +419,26 @@ next_router__WEBPACK_IMPORTED_MODULE_1___default.a.events.on('routeChangeComplet
 /*!****************************!*\
   !*** ./utils/analytics.js ***!
   \****************************/
-/*! exports provided: GA_TRACKING_ID, trackPageview, trackEvent */
+/*! exports provided: GA_TRACKING_ID, trackType, trackPageview, trackEvent, trackEventTiming */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "GA_TRACKING_ID", function() { return GA_TRACKING_ID; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "trackType", function() { return trackType; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "trackPageview", function() { return trackPageview; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "trackEvent", function() { return trackEvent; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "trackEventTiming", function() { return trackEventTiming; });
 // https://github.com/zeit/next.js/blob/canary/examples/with-google-analytics/pages/_app.js
-const GA_TRACKING_ID = 'UA-162274920-1';
+const GA_TRACKING_ID = "UA-162274920-1";
+const trackType = {
+  TRACK_START: "trackStart",
+  TRACK_END: "trackEnd"
+}; // eventTimeStamp: {eventType, startTimeStamp, endTimeStamp}
+
+let eventTimeStamps = [];
 const trackPageview = url => {
-  window.gtag('config', GA_TRACKING_ID, {
+  window.gtag("config", GA_TRACKING_ID, {
     page_path: url
   });
 };
@@ -440,11 +448,43 @@ const trackEvent = ({
   value,
   event_category
 }) => {
-  window.gtag('event', action, {
+  window.gtag("event", action, {
     name,
     value,
     event_category
   });
+};
+const trackEventTiming = ({
+  trackType,
+  eventType,
+  timeStamp
+}) => {
+  const eventIndex = eventTimeStamps.findIndex(event => event.eventType === eventType);
+  const isEventExist = eventIndex !== -1;
+
+  if (trackType === trackType.TRACK_START) {
+    if (isEventExist) {
+      eventTimeStamps[eventIndex].startTimeStamp = timeStamp;
+    } else {
+      eventTimeStamps.push({
+        eventType,
+        startTimeStamp: timeStamp,
+        endTimeStamp: null
+      });
+    }
+  } else if (trackType === trackType.TRACK_END && isEventExist) {
+    // send GA tracking, then remove from the list
+    const deltaTime = timeStamp - eventTimeStamps[eventIndex].startTimeStamp;
+    trackEvent({
+      action: "timing_complete",
+      name: "test_name",
+      value: deltaTime,
+      event_category: eventType
+    });
+    eventTimeStamps.splice(eventIndex, 1);
+  }
+
+  return eventTimeStamps;
 };
 
 /***/ }),
