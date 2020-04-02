@@ -7,8 +7,10 @@ export const trackTypes = {
   TRACK_END: "trackEnd"
 };
 
-// eventTimeStamp: {eventType, startTimeStamp, endTimeStamp}
-let eventTimeStamps = [];
+if (typeof window !== "undefined") {
+  // eventTimeStamp: {eventType, startTimeStamp, endTimeStamp}
+  window.eventTimeStamps = [];
+}
 
 export const trackPageview = url => {
   window.gtag("config", GA_TRACKING_ID, {
@@ -25,15 +27,15 @@ export const trackEvent = ({ action, name, value, event_category }) => {
 };
 
 export const trackEventTiming = ({ trackType, eventType, timeStamp }) => {
-  const eventIndex = eventTimeStamps.findIndex(
+  const eventIndex = window.eventTimeStamps.findIndex(
     event => event.eventType === eventType
   );
   const isEventExist = eventIndex !== -1;
   if (trackType === trackTypes.TRACK_START) {
     if (isEventExist) {
-      eventTimeStamps[eventIndex].startTimeStamp = timeStamp;
+      window.eventTimeStamps[eventIndex].startTimeStamp = timeStamp;
     } else {
-      eventTimeStamps.push({
+      window.eventTimeStamps.push({
         eventType,
         startTimeStamp: timeStamp,
         endTimeStamp: null
@@ -41,7 +43,8 @@ export const trackEventTiming = ({ trackType, eventType, timeStamp }) => {
     }
   } else if (trackType === trackTypes.TRACK_END && isEventExist) {
     // send GA tracking, then remove from the list
-    const deltaTime = timeStamp - eventTimeStamps[eventIndex].startTimeStamp;
+    const deltaTime =
+      timeStamp - window.eventTimeStamps[eventIndex].startTimeStamp;
     trackEvent({
       action: "timing_complete",
       name: "test_name",
@@ -49,8 +52,8 @@ export const trackEventTiming = ({ trackType, eventType, timeStamp }) => {
       event_category: eventType
     });
 
-    eventTimeStamps.splice(eventIndex, 1);
+    window.eventTimeStamps.splice(eventIndex, 1);
   }
 
-  return eventTimeStamps;
+  return window.eventTimeStamps;
 };

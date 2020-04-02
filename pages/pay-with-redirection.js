@@ -1,24 +1,23 @@
 import React, { useState } from "react";
 import Layout from "../components/MyLayout.js";
-import { trackEvent } from "../utils/analytics";
+import { trackEventTiming, trackTypes } from "../utils/analytics";
+import { useRouter } from "next/router";
 
-const treatPayment = ({ setIsConfirmed }) => {
-  const startTreatPaymentTime = window.performance.now();
+const treatPayment = (router, setIsConfirmed) => {
+  trackEventTiming({
+    trackType: trackTypes.TRACK_START,
+    eventType: "paymentWithRedirection",
+    timeStamp: window.performance.now()
+  });
+  setIsConfirmed(true);
 
   setTimeout(function() {
-    setIsConfirmed(true);
-    const endTreatPaymentTime = window.performance.now();
-    const deltaTime = Math.round(endTreatPaymentTime - startTreatPaymentTime);
-    trackEvent({
-      action: "timing_complete",
-      name: "test_name",
-      value: deltaTime,
-      event_category: "payment_confirmation_time"
-    });
-  }, 999); // mock 1s to treat payment
+    router.push("/");
+  }, 1999); // mock 1s to treat payment
 };
 
 export default function About() {
+  const router = useRouter();
   const [isConfirmed, setIsConfirmed] = useState(false);
   return (
     <Layout>
@@ -29,12 +28,12 @@ export default function About() {
       </h3>
       <button
         onClick={() => {
-          treatPayment({ setIsConfirmed });
+          treatPayment(router, setIsConfirmed);
         }}
       >
         Buy and redirect
       </button>
-      {isConfirmed && <h4>Payment success</h4>}
+      {isConfirmed && <h3>Payment success, waiting for redirection...</h3>}
     </Layout>
   );
 }
