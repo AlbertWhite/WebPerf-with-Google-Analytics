@@ -7,9 +7,9 @@
 - [x] Try with GA times API and navigation performance API to upload userTime
 - [x] Upload time data by gtag.js
 - [x] Implement the substract of two times in order to track the key metric
-- [ ] Track user action between page (ex: redirection)
+- [x] Track user action between page (ex: redirection)
+- [x] Create helper functions, or a hook to track the metrics above
 - [ ] Test with React profiler API, find the useful metrics
-- [ ] Create helper functions, or a hook to track the metrics above
 - [ ] Talk with collegues for suggestions
 
 ## Description
@@ -184,6 +184,60 @@ We will see the 'payment_confirmation_time' is tracked in google analytics and t
 
 ![](https://raw.githubusercontent.com/AlbertWhite/WebPerf-with-Google-Analytics/master/images/4.png)
 
+### Helper function for tracking reponse time to user action
+
+If a user action concerns multiple pages, it is not easy to calculate delta time within one file. We need a helper function and save the timestamp data somewhere stable, for example, redux store, window object or cache.
+
+In this project, I have create a helper function [trackEventTiming](https://github.com/AlbertWhite/WebPerf-with-Google-Analytics/blob/mastsr/utils/analytics.js).
+
+```js
+trackEventTiming({
+  trackType: TRACK_START | TRACK_END,
+  eventType: string,
+  timeStamp: number
+});
+```
+
+In this way, we can track the start time and end time for the same event, in whatever which page.
+
+For using this function, in the file [pay-with-redirection.js](https://github.com/AlbertWhite/WebPerf-with-Google-Analytics/blob/master/pages/pay-with-redirection.js)
+
+```js
+const treatPayment = (router, setIsConfirmed) => {
+  trackEventTiming({
+    trackType: trackTypes.TRACK_START,
+    eventType: "paymentWithRedirection",
+    timeStamp: window.performance.now()
+  });
+  setIsConfirmed(true);
+
+  setTimeout(function() {
+    router.push("/");
+  }, 1999); // mock 1s to treat payment
+};
+```
+
+Then on the [index page](https://github.com/AlbertWhite/WebPerf-with-Google-Analytics/blob/master/pages/index.js),
+
+```js
+useEffect(() => {
+  const paymentEventIndex = window.eventTimeStamps.findIndex(
+    event => event.eventType === "paymentWithRedirection"
+  );
+  if (paymentEventIndex !== -1) {
+    trackEventTiming({
+      trackType: trackTypes.TRACK_END,
+      eventType: "paymentWithRedirection",
+      timeStamp: window.performance.now()
+    });
+  }
+}, []);
+```
+
+In google analytics, we can see that from clicking on the button to redirect to the home page takes 2.3s on average.
+
+![](https://raw.githubusercontent.com/AlbertWhite/WebPerf-with-Google-Analytics/master/images/5.png)
+
 ## Resources
 
 Demo from https://github.com/AlbertWhite/next-learn-demo/tree/master/6-fetching-data
@@ -197,3 +251,11 @@ Demo from https://github.com/AlbertWhite/next-learn-demo/tree/master/6-fetching-
 [Add secret in Now deployment for enviroment variables](https://zeit.co/docs/v2/build-step#using-environment-variables-and-secrets) Now secrets are lowercased.
 
 [Measure user timings with gtag.js](https://developers.google.com/analytics/devguides/collection/gtagjs/user-timings)
+
+```
+
+```
+
+```
+
+```
