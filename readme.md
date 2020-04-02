@@ -184,7 +184,7 @@ We will see the 'payment_confirmation_time' is tracked in google analytics and t
 
 ![](https://raw.githubusercontent.com/AlbertWhite/WebPerf-with-Google-Analytics/master/images/4.png)
 
-### Helper function for tracking reponse time to user action
+### Helper function for tracking user interaction response time
 
 If a user action concerns multiple pages, it is not easy to calculate delta time within one file. We need a helper function and save the timestamp data somewhere stable, for example, redux store, window object or cache.
 
